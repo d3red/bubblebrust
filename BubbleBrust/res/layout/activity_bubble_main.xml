@@ -15,6 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="138dp"
-        android:src="@drawable/ubuntu" android:contentDescription="LOGO bubble"/>
+        android:contentDescription="LOGO bubble"
+        android:src="@drawable/solo_bubble_md" />
 
 </RelativeLayout>
