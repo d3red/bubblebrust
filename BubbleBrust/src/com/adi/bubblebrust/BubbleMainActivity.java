@@ -130,7 +130,7 @@ public class BubbleMainActivity extends Activity {
 
 				int nextX = randon.nextInt(width);
 				//int nextY = randon.nextInt(height);
-				int nextY = (int) (randon.nextInt(height - (int) (height/2)) + (int) height*0.5f) ;
+				int nextY = (int) (randon.nextInt((int) (height - (height*0.5f))) + height*0.5f) ;
 				
 				animation1 = ObjectAnimator.ofFloat(imgview, "x", nextX);
 				animation1.setDuration(1400);
