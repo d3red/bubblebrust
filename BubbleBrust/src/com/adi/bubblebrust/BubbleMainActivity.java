@@ -32,7 +32,16 @@ public class BubbleMainActivity extends Activity {
 	private int height;
 	private AnimatorSet animset;
 	private MediaPlayer mp;
-
+	private TextView tScore;
+	private int s32Score;
+	
+	
+	
+	public void score()
+	{
+		s32Score++;
+		tScore.setText(Integer.toString(s32Score));
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,8 @@ public class BubbleMainActivity extends Activity {
 		setContentView(R.layout.activity_bubble_main);
 		final ImageView imgview = (ImageView)findViewById(R.id.imageView1);
 		final ImageView basketview = (ImageView)findViewById(R.id.imageView2);
-		final TextView score = (TextView)findViewById(R.id.textView1);
+		s32Score = 0;
+		tScore = (TextView)findViewById(R.id.textView1);
 		
 		
 
@@ -151,11 +161,10 @@ public class BubbleMainActivity extends Activity {
 				// TODO Auto-generated method stub
 				//imgview.setImageResource(R.drawable.ic_launcher);
 				Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
-				mp.start();
+				mp.start();//start play sound
 				imgview.setImageResource(R.drawable.blast);
-				//imgview.animate().start();
-				//imgview.getDrawable().setColorFilter(Color.BLUE,PorterDuff.Mode.MULTIPLY);
-				//imgview.setImageDrawable(null);
+				score();
+				
 				
 				
 				
