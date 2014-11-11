@@ -76,7 +76,7 @@ public class BubbleMainActivity extends Activity {
 		animset.start();
 
 		int nextX = randon.nextInt(width);
-		int nextY = randon.nextInt(height);
+		int nextY = (int) (randon.nextInt(height - (int) (height/2)) + (int) height*0.5f) ;
 		animation1 = ObjectAnimator.ofFloat(imgview, "x", nextX);
 		animation1.setDuration(1400);
 		animation2 = ObjectAnimator.ofFloat(imgview, "y", nextY);
@@ -129,8 +129,8 @@ public class BubbleMainActivity extends Activity {
 				// TODO Auto-generated method stub
 
 				int nextX = randon.nextInt(width);
-				int nextY = randon.nextInt(height);
-				
+				//int nextY = randon.nextInt(height);
+				int nextY = (int) (randon.nextInt(height - (int) (height/2)) + (int) height*0.5f) ;
 				
 				animation1 = ObjectAnimator.ofFloat(imgview, "x", nextX);
 				animation1.setDuration(1400);
