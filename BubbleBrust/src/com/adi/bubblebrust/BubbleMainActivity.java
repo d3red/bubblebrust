@@ -16,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,9 +35,23 @@ public class BubbleMainActivity extends Activity {
 	private MediaPlayer mp;
 	private TextView tScore;
 	private int s32Score;
-	
-	
-	
+	private ImageView imgview = null;
+
+	public void animateRandom()
+	{
+		int nextX = randon.nextInt(width);
+		//int nextY = randon.nextInt(height);
+		int nextY = (int) (randon.nextInt((int) (height - (height*0.5f))) + height*0.5f) ;
+
+		animation1 = ObjectAnimator.ofFloat(imgview, "x", nextX);
+		animation1.setDuration(1400);
+		animation2 = ObjectAnimator.ofFloat(imgview, "y", nextY);
+		animation2.setDuration(1400);	    
+
+		animset.playTogether(animation1,animation2);
+		animset.start();
+	}
+
 	public void score()
 	{
 		s32Score++;
@@ -47,13 +62,11 @@ public class BubbleMainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble_main);
-		final ImageView imgview = (ImageView)findViewById(R.id.imageView1);
+		imgview = (ImageView)findViewById(R.id.imageView1);
 		final ImageView basketview = (ImageView)findViewById(R.id.imageView2);
+
 		s32Score = 0;
 		tScore = (TextView)findViewById(R.id.textView1);
-		
-		
-
 		//get display properties
 		DisplayMetrics dismet = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dismet);
@@ -62,28 +75,16 @@ public class BubbleMainActivity extends Activity {
 		height = dismet.heightPixels;
 		Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
 		imgview.setX(width/2);
-		
+
 		//Generate Random
 		randon = new Random();
 
 		//Add sound
 		mp = MediaPlayer.create(this, R.raw.button_7);
-		
-
-		
-
 		animset = new AnimatorSet();
-		animset.start();
+		//animset.start();
 
-		int nextX = randon.nextInt(width);
-		int nextY = (int) (randon.nextInt(height - (int) (height/2)) + (int) height*0.5f) ;
-		animation1 = ObjectAnimator.ofFloat(imgview, "x", nextX);
-		animation1.setDuration(1400);
-		animation2 = ObjectAnimator.ofFloat(imgview, "y", nextY);
-		animation2.setDuration(1400);	    
-
-		animset.playTogether(animation1,animation2);
-		animset.start();
+		animateRandom();
 
 		animset.addListener(new AnimatorListener() {
 
@@ -110,10 +111,10 @@ public class BubbleMainActivity extends Activity {
 				case 5:
 					imgview.getDrawable().setColorFilter(Color.CYAN,PorterDuff.Mode.MULTIPLY);
 					break;
-					default:
-						imgview.getDrawable().setColorFilter(Color.DKGRAY,PorterDuff.Mode.MULTIPLY);
-						break;
-						
+				default:
+					imgview.getDrawable().setColorFilter(Color.MAGENTA,PorterDuff.Mode.MULTIPLY);
+					break;
+
 				}
 
 			}
@@ -127,56 +128,54 @@ public class BubbleMainActivity extends Activity {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				// TODO Auto-generated method stub
+				//Log.i("Bubble_Brust", "Inside --> onAnimationEnd()");
+				animateRandom();
+				//imgview.animate().start();
 
-				int nextX = randon.nextInt(width);
-				//int nextY = randon.nextInt(height);
-				int nextY = (int) (randon.nextInt((int) (height - (height*0.5f))) + height*0.5f) ;
-				
-				animation1 = ObjectAnimator.ofFloat(imgview, "x", nextX);
-				animation1.setDuration(1400);
-				animation2 = ObjectAnimator.ofFloat(imgview, "y", nextY);
-				animation2.setDuration(1400);	    
-				
-				animset.playTogether(animation1,animation2);
-				animset.start();
 
 			}
 
 			@Override
 			public void onAnimationCancel(Animator animation) {
 				// TODO Auto-generated method stub
-				imgview.animate().start();
+				//imgview.animate().start();
+				//Log.i("Bubble_Brust", "Inside Cancel Animation");
 
 			}
 		});
-
-
-
 
 		//Adding ClickListner
 		imgview.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				//imgview.setImageResource(R.drawable.ic_launcher);
+				// TODO Avoid multiple clicks
 				Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
-				mp.start();//start play sound
+				//mp.start();//start play sound
 				imgview.setImageResource(R.drawable.blast);
 				score();
-				
-				
-				
-				
-				
-				
-
 
 			}
 		});
 
 	}
 
+	@Override
+	public void onStop()
+	{
+		super.onStop();
+		Log.i("Bubble_Brust", "Inside OnStop");
+		animset.cancel();
+
+	}	
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		Log.i("Bubble_Brust", "Inside OnResume");
+		animset.start();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
