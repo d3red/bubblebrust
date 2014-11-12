@@ -12,17 +12,15 @@
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp"
-        android:contentDescription="LOGO bubble"
+        android:layout_alignParentTop="true"
         android:src="@drawable/solo_bubble_md" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageView1"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/gunny_bag" />
 

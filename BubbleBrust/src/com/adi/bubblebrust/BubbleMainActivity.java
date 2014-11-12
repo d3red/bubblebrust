@@ -40,13 +40,11 @@ public class BubbleMainActivity extends Activity {
 	public void animateRandom()
 	{
 		int nextX = randon.nextInt(width);
-		//int nextY = randon.nextInt(height);
 		int nextY = (int) (randon.nextInt((int) (height - (height*0.5f))) + height*0.5f) ;
-
 		animation1 = ObjectAnimator.ofFloat(imgview, "x", nextX);
-		animation1.setDuration(1400);
+		animation1.setDuration(1800);		
 		animation2 = ObjectAnimator.ofFloat(imgview, "y", nextY);
-		animation2.setDuration(1400);	    
+		animation2.setDuration(1800);	    
 
 		animset.playTogether(animation1,animation2);
 		animset.start();
@@ -74,7 +72,9 @@ public class BubbleMainActivity extends Activity {
 		width = dismet.widthPixels;
 		height = dismet.heightPixels;
 		Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
-		imgview.setX(width/2);
+		//set Origin of bubble sprites
+		imgview.setX((width/2) - basketview.getWidth());
+		imgview.setY(basketview.getHeight()/2);
 
 		//Generate Random
 		randon = new Random();
@@ -82,10 +82,10 @@ public class BubbleMainActivity extends Activity {
 		//Add sound
 		mp = MediaPlayer.create(this, R.raw.button_7);
 		animset = new AnimatorSet();
-		//animset.start();
-
+		
+		// animate in beginning 
 		animateRandom();
-
+		// add Listener to animationSet and implement animation states
 		animset.addListener(new AnimatorListener() {
 
 			@Override
@@ -129,10 +129,8 @@ public class BubbleMainActivity extends Activity {
 			public void onAnimationEnd(Animator animation) {
 				// TODO Auto-generated method stub
 				//Log.i("Bubble_Brust", "Inside --> onAnimationEnd()");
+				//animset.end();				
 				animateRandom();
-				//imgview.animate().start();
-
-
 			}
 
 			@Override
@@ -151,7 +149,7 @@ public class BubbleMainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Avoid multiple clicks
 				Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
-				//mp.start();//start play sound
+				mp.start();//start play sound
 				imgview.setImageResource(R.drawable.blast);
 				score();
 
@@ -166,6 +164,7 @@ public class BubbleMainActivity extends Activity {
 		super.onStop();
 		Log.i("Bubble_Brust", "Inside OnStop");
 		animset.cancel();
+		//mp.stop();
 
 	}	
 
