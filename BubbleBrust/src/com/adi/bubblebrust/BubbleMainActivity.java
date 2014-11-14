@@ -22,11 +22,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-
+//TODO : animate clouds separately
 public class BubbleMainActivity extends Activity {
 
 	private ObjectAnimator animation1;
 	private ObjectAnimator animation2;
+	private ObjectAnimator animation3;
+	private ObjectAnimator animation4;
 	private Button button;
 	private Random randon;
 	private int width;
@@ -36,17 +38,25 @@ public class BubbleMainActivity extends Activity {
 	private TextView tScore;
 	private int s32Score;
 	private ImageView imgview = null;
+	private ImageView imgview_cloud_anim = null;
+	private ImageView imgview_cloud_anim_1 = null;
 
 	public void animateRandom()
 	{
 		int nextX = randon.nextInt(width);
 		int nextY = (int) (randon.nextInt((int) (height - (height*0.5f))) + height*0.5f) ;
 		animation1 = ObjectAnimator.ofFloat(imgview, "x", nextX);
-		animation1.setDuration(1800);		
+		animation1.setDuration(2500);		
 		animation2 = ObjectAnimator.ofFloat(imgview, "y", nextY);
-		animation2.setDuration(1800);	    
+		animation2.setDuration(2500);
+		animation3 = ObjectAnimator.ofFloat(imgview_cloud_anim, "x", nextX);
+		animation3.setDuration(12500);		
+		animation4 = ObjectAnimator.ofFloat(imgview_cloud_anim_1, "x", nextY);
+		animation4.setDuration(14500);
+		
 
-		animset.playTogether(animation1,animation2);
+		animset.playTogether(animation1,animation2,animation3,animation4);
+		
 		animset.start();
 	}
 
@@ -61,10 +71,13 @@ public class BubbleMainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble_main);
 		imgview = (ImageView)findViewById(R.id.imageView1);
-		final ImageView basketview = (ImageView)findViewById(R.id.imageView2);
+		final ImageView basketview = (ImageView)findViewById(R.id.imageView_cloud_1);
+		imgview_cloud_anim = (ImageView)findViewById(R.id.imageView_cloud_anim);
+		imgview_cloud_anim_1 = (ImageView)findViewById(R.id.imageView_cloud_anim_1);
 
 		s32Score = 0;
 		tScore = (TextView)findViewById(R.id.textView1);
+		//tScore.set
 		//get display properties
 		DisplayMetrics dismet = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dismet);

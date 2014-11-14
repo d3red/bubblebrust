@@ -2,34 +2,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
-    android:background="@drawable/background"     
     tools:context=".BubbleMainActivity" >
 
-         
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/solo_bubble_md" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/gunny_bag" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/score" />
-    
+        android:layout_alignParentTop="true"
+        android:text="@string/score"
+        android:textColor="#00FF00"
+        android:textSize="32sp" />
 
+    <ImageView
+        android:id="@+id/imageView_cloud_1"
+         android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/textView1"
+          android:layout_centerHorizontal="true"
+        android:src="@drawable/bg_cloud" />
 
+      <ImageView
+          android:id="@+id/imageView_cloud_anim_1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginTop="16dp"
+          android:src="@drawable/bg_cloud" />
+
+      <ImageView
+          android:id="@+id/imageView_cloud_anim"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignBottom="@+id/imageView_cloud_1"
+          android:layout_alignRight="@+id/imageView1"
+          android:layout_marginBottom="13dp"
+          android:src="@drawable/bg_cloud" />
+      
 </RelativeLayout>
