@@ -56,19 +56,19 @@ public class BubbleMainActivity extends Activity {
 		animset.start();
 	}
 	
-	public void animateclouds()
-	{
-		int nextX = randon.nextInt(width);
-		//int nextY = (int) (randon.nextInt((int) (height - (height*0.5f))) + height*0.5f) ;
-		animation3 = ObjectAnimator.ofFloat(imgview_cloud_anim, "x", 720);
-		animation3.setDuration(12500);		
-		animation4 = ObjectAnimator.ofFloat(imgview_cloud_anim_1, "x", 720);
-		animation4.setDuration(12700);
-
-		animset_clouds.playTogether(animation3,animation4);
-		
-		animset_clouds.start();
-	}
+//	public void animateclouds()
+//	{
+//		int nextX = randon.nextInt(width);
+//		//int nextY = (int) (randon.nextInt((int) (height - (height*0.5f))) + height*0.5f) ;
+//		animation3 = ObjectAnimator.ofFloat(imgview_cloud_anim, "x", 720);
+//		animation3.setDuration(12500);		
+//		animation4 = ObjectAnimator.ofFloat(imgview_cloud_anim_1, "x", 720);
+//		animation4.setDuration(12700);
+//
+//		animset_clouds.playTogether(animation3,animation4);
+//		
+//		animset_clouds.start();
+//	}
 
 	public void score()
 	{
@@ -82,10 +82,10 @@ public class BubbleMainActivity extends Activity {
 		setContentView(R.layout.activity_bubble_main);
 		imgview = (ImageView)findViewById(R.id.imageView1);
 		final ImageView basketview = (ImageView)findViewById(R.id.imageView_cloud_1);
-		imgview_cloud_anim = (ImageView)findViewById(R.id.imageView_cloud_anim);
-		imgview_cloud_anim_1 = (ImageView)findViewById(R.id.imageView_cloud_anim_1);
-		imgview_cloud_anim.setX(0.0f);
-		imgview_cloud_anim.setX(imgview_cloud_anim.getWidth());
+//		imgview_cloud_anim = (ImageView)findViewById(R.id.imageView_cloud_anim);
+//		imgview_cloud_anim_1 = (ImageView)findViewById(R.id.imageView_cloud_anim_1);
+//		imgview_cloud_anim.setX(0.0f);
+//		imgview_cloud_anim_1.setX(imgview_cloud_anim.getWidth());
 
 		s32Score = 0;
 		tScore = (TextView)findViewById(R.id.textView1);
@@ -111,7 +111,7 @@ public class BubbleMainActivity extends Activity {
 		
 		// animate in beginning 
 		animateRandom();
-		animateclouds();
+		//animateclouds();
 		
 		//for cloud animations
 		animset_clouds.addListener(new AnimatorListener() {
@@ -131,7 +131,7 @@ public class BubbleMainActivity extends Activity {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				// TODO Auto-generated method stub
-				animateclouds();
+				//animateclouds();
 			}
 			
 			@Override
