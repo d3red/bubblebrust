@@ -41,6 +41,8 @@ public class BubbleMainActivity extends Activity {
 	private ImageView imgview = null;
 	private ImageView imgview_cloud_anim = null;
 	private ImageView imgview_cloud_anim_1 = null;
+	private int bubble_start_x = 0;
+	private int bubble_start_y = 0;
 
 	public void animateRandom()
 	{
@@ -54,6 +56,7 @@ public class BubbleMainActivity extends Activity {
 		animset.playTogether(animation1,animation2);
 		
 		animset.start();
+		
 	}
 	
 //	public void animateclouds()
@@ -98,8 +101,11 @@ public class BubbleMainActivity extends Activity {
 		height = dismet.heightPixels;
 		Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
 		//set Origin of bubble sprites
-		imgview.setX((width/2) - basketview.getWidth());
-		imgview.setY(basketview.getHeight()/2);
+		 bubble_start_x =  (width/2) - basketview.getWidth();
+		 bubble_start_y =  basketview.getHeight()/2;
+		 
+		imgview.setX(bubble_start_x);
+		imgview.setY(bubble_start_y);
 
 		//Generate Random
 		randon = new Random();
@@ -111,6 +117,7 @@ public class BubbleMainActivity extends Activity {
 		
 		// animate in beginning 
 		animateRandom();
+		
 		//animateclouds();
 		
 		//for cloud animations
@@ -131,7 +138,7 @@ public class BubbleMainActivity extends Activity {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				// TODO Auto-generated method stub
-				//animateclouds();
+				
 			}
 			
 			@Override
@@ -147,27 +154,27 @@ public class BubbleMainActivity extends Activity {
 			public void onAnimationStart(Animator animation) {
 				// TODO Auto-generated method stub
 
-				imgview.setImageResource(R.drawable.solo_bubble_md);
+				
 				int colortype = randon.nextInt(5);
 				switch(colortype)
 				{
 				case 1: 
-					imgview.getDrawable().setColorFilter(Color.RED,PorterDuff.Mode.MULTIPLY);
+					imgview.setImageResource(R.drawable.solo_bubble_green);
 					break;
 				case 2:
-					imgview.getDrawable().setColorFilter(Color.BLUE,PorterDuff.Mode.MULTIPLY);
+					imgview.setImageResource(R.drawable.solo_bubble_yellow);
 					break;
 				case 3:
-					imgview.getDrawable().setColorFilter(Color.GREEN,PorterDuff.Mode.MULTIPLY);
+					imgview.setImageResource(R.drawable.solo_bubble_red);
 					break;
 				case 4:
-					imgview.getDrawable().setColorFilter(Color.YELLOW,PorterDuff.Mode.MULTIPLY);
+					imgview.setImageResource(R.drawable.solo_bubble_orange);
 					break;
 				case 5:
-					imgview.getDrawable().setColorFilter(Color.CYAN,PorterDuff.Mode.MULTIPLY);
+					imgview.setImageResource(R.drawable.solo_bubble_md);
 					break;
 				default:
-					imgview.getDrawable().setColorFilter(Color.MAGENTA,PorterDuff.Mode.MULTIPLY);
+					imgview.setImageResource(R.drawable.solo_bubble_blue);
 					break;
 
 				}
@@ -186,13 +193,16 @@ public class BubbleMainActivity extends Activity {
 				//Log.i("Bubble_Brust", "Inside --> onAnimationEnd()");
 				//animset.end();				
 				animateRandom();
+				
 			}
 
 			@Override
 			public void onAnimationCancel(Animator animation) {
 				// TODO Auto-generated method stub
 				//imgview.animate().start();
-				//Log.i("Bubble_Brust", "Inside Cancel Animation");
+				Log.i("Bubble_Brust", "Inside Cancel Animation");
+				//animset.setStartDelay(10);
+				animateRandom();
 
 			}
 		});
@@ -206,11 +216,23 @@ public class BubbleMainActivity extends Activity {
 				Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
 				mp.start();//start play sound
 				imgview.setImageResource(R.drawable.blast);
+				//animset.setDuration(10);
+				imgview.setX(bubble_start_x);
+				imgview.setY(bubble_start_y);
+				animset.cancel();
+				
+
 				score();
 
 			}
 		});
 
+	}
+	
+	
+	public void cancelspriteAnimation()
+	{
+		//animset.start();
 	}
 
 	@Override
