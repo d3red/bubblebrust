@@ -1,13 +1,14 @@
 package com.adi.bubblebrust;
 
 import java.util.Random;
-
+import com.adi.bubblebrust.ScorecardActivity;
 import android.R.bool;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.content.Intent;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
@@ -47,6 +48,7 @@ public class BubbleMainActivity extends Activity {
 	private int bubble_start_y = 0;
 	private short S32Lives = 5;
 	private boolean clicked = false;
+	Intent intent;
 
 	public void animateRandom()
 	{
@@ -66,7 +68,7 @@ public class BubbleMainActivity extends Activity {
 	{
 		finish();
 	}
-	public void score()
+	public void updateScore()
 	{
 		s32Score++;
 		tScore.setText(Integer.toString(s32Score));
@@ -76,7 +78,9 @@ public class BubbleMainActivity extends Activity {
 
 		if(S32Lives <= 0)
 		{
-			finish();
+			//finish();
+			
+			
 		}
 	}
 
@@ -100,15 +104,16 @@ public class BubbleMainActivity extends Activity {
 		tScore.setText(Integer.toString(s32Score));
 		tLives.setText(Integer.toString(S32Lives));
 
-
+		 intent = new Intent(this, ScorecardActivity.class);
 
 		width = dismet.widthPixels;
 		height = dismet.heightPixels;
 		Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
-		//set Origin of bubble sprites
+		
+		//calculate Origin of bubble sprites
 		bubble_start_x =  (width/2) - basketview.getWidth();
 		bubble_start_y =  basketview.getHeight()/2;
-
+		//set Origin of bubble sprites
 		imgview.setX(bubble_start_x);
 		imgview.setY(bubble_start_y);
 
@@ -117,6 +122,8 @@ public class BubbleMainActivity extends Activity {
 
 		//Add sound
 		mp = MediaPlayer.create(this, R.raw.button_7);
+		
+		
 		animset = new AnimatorSet();
 
 		// animate in beginning 
@@ -173,6 +180,15 @@ public class BubbleMainActivity extends Activity {
 					S32Lives -= 1;
 					tLives.setText(Integer.toString(S32Lives));
 					lives();
+					if(S32Lives <= 0)
+					{
+						//Intent act2 = new Intent(view.getContext(),.class);
+						//startActivity(act2);
+						//finish();
+						startActivity(intent);
+						
+						
+					}
 				}
 
 				clicked = false;
@@ -201,7 +217,7 @@ public class BubbleMainActivity extends Activity {
 
 				imgview.setX(bubble_start_x);
 				imgview.setY(bubble_start_y);
-				score();
+				updateScore();
 				clicked = true;
 
 			}
