@@ -2,6 +2,7 @@ package com.adi.bubblebrust;
 
 import java.util.Random;
 
+import android.R.bool;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,15 +36,17 @@ public class BubbleMainActivity extends Activity {
 	private int width;
 	private int height;
 	private AnimatorSet animset;
-	private AnimatorSet animset_clouds;
 	private MediaPlayer mp;
 	private TextView tScore;
-	private int s32Score;
+	private TextView tLives;
+	private int s32Score = 0;
 	private ImageView imgview = null;
 	private ImageView imgview_cloud_anim = null;
 	private ImageView imgview_cloud_anim_1 = null;
 	private int bubble_start_x = 0;
 	private int bubble_start_y = 0;
+	private short S32Lives = 5;
+	private boolean clicked = false;
 
 	public void animateRandom()
 	{
@@ -54,56 +58,57 @@ public class BubbleMainActivity extends Activity {
 		animation2.setDuration(2500);
 
 		animset.playTogether(animation1,animation2);
-		
 		animset.start();
-		
-	}
-	
-//	public void animateclouds()
-//	{
-//		int nextX = randon.nextInt(width);
-//		//int nextY = (int) (randon.nextInt((int) (height - (height*0.5f))) + height*0.5f) ;
-//		animation3 = ObjectAnimator.ofFloat(imgview_cloud_anim, "x", 720);
-//		animation3.setDuration(12500);		
-//		animation4 = ObjectAnimator.ofFloat(imgview_cloud_anim_1, "x", 720);
-//		animation4.setDuration(12700);
-//
-//		animset_clouds.playTogether(animation3,animation4);
-//		
-//		animset_clouds.start();
-//	}
 
+	}
+
+	public void exitApp(View v)
+	{
+		finish();
+	}
 	public void score()
 	{
 		s32Score++;
 		tScore.setText(Integer.toString(s32Score));
 	}
 
+	public void lives() {
+
+		if(S32Lives <= 0)
+		{
+			finish();
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bubble_main);
-		imgview = (ImageView)findViewById(R.id.imageView1);
-		final ImageView basketview = (ImageView)findViewById(R.id.imageView_cloud_1);
-//		imgview_cloud_anim = (ImageView)findViewById(R.id.imageView_cloud_anim);
-//		imgview_cloud_anim_1 = (ImageView)findViewById(R.id.imageView_cloud_anim_1);
-//		imgview_cloud_anim.setX(0.0f);
-//		imgview_cloud_anim_1.setX(imgview_cloud_anim.getWidth());
 
-		s32Score = 0;
-		tScore = (TextView)findViewById(R.id.textView1);
-		//tScore.set
 		//get display properties
 		DisplayMetrics dismet = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dismet);
+		getWindowManager().getDefaultDisplay().getMetrics(dismet);	
+
+		/** Cloud drawing  **/
+		imgview = (ImageView)findViewById(R.id.imageView1);
+		final ImageView basketview = (ImageView)findViewById(R.id.imageView_cloud_1);
+
+
+		/** App Statistic related **/
+		tScore = (TextView)findViewById(R.id.textView1);
+		tLives = (TextView)findViewById(R.id.textView2);
+		tScore.setText(Integer.toString(s32Score));
+		tLives.setText(Integer.toString(S32Lives));
+
+
 
 		width = dismet.widthPixels;
 		height = dismet.heightPixels;
 		Log.i("Bubble_Brust", "Width"+ width+"height"+ height);
 		//set Origin of bubble sprites
-		 bubble_start_x =  (width/2) - basketview.getWidth();
-		 bubble_start_y =  basketview.getHeight()/2;
-		 
+		bubble_start_x =  (width/2) - basketview.getWidth();
+		bubble_start_y =  basketview.getHeight()/2;
+
 		imgview.setX(bubble_start_x);
 		imgview.setY(bubble_start_y);
 
@@ -113,40 +118,11 @@ public class BubbleMainActivity extends Activity {
 		//Add sound
 		mp = MediaPlayer.create(this, R.raw.button_7);
 		animset = new AnimatorSet();
-		animset_clouds = new AnimatorSet();
-		
+
 		// animate in beginning 
 		animateRandom();
-		
-		//animateclouds();
-		
-		//for cloud animations
-		animset_clouds.addListener(new AnimatorListener() {
-			
-			@Override
-			public void onAnimationStart(Animator animation) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animator animation) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onAnimationCancel(Animator animation) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+
+
 		// add Listener to animationSet and implement animation states
 		animset.addListener(new AnimatorListener() {
 
@@ -154,7 +130,7 @@ public class BubbleMainActivity extends Activity {
 			public void onAnimationStart(Animator animation) {
 				// TODO Auto-generated method stub
 
-				
+
 				int colortype = randon.nextInt(5);
 				switch(colortype)
 				{
@@ -190,19 +166,24 @@ public class BubbleMainActivity extends Activity {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				// TODO Auto-generated method stub
-				//Log.i("Bubble_Brust", "Inside --> onAnimationEnd()");
-				//animset.end();				
+				Log.i("Bubble_Brust", "Inside --> onAnimationEnd()");
+				//animset.end();
+				if(!clicked)
+				{
+					S32Lives -= 1;
+					tLives.setText(Integer.toString(S32Lives));
+					lives();
+				}
+
+				clicked = false;
 				animateRandom();
-				
+
 			}
 
 			@Override
 			public void onAnimationCancel(Animator animation) {
 				// TODO Auto-generated method stub
-				//imgview.animate().start();
-				Log.i("Bubble_Brust", "Inside Cancel Animation");
-				//animset.setStartDelay(10);
-				animateRandom();
+
 
 			}
 		});
@@ -217,22 +198,15 @@ public class BubbleMainActivity extends Activity {
 				mp.start();//start play sound
 				imgview.setImageResource(R.drawable.blast);
 				//animset.setDuration(10);
+
 				imgview.setX(bubble_start_x);
 				imgview.setY(bubble_start_y);
-				animset.cancel();
-				
-
 				score();
+				clicked = true;
 
 			}
 		});
 
-	}
-	
-	
-	public void cancelspriteAnimation()
-	{
-		//animset.start();
 	}
 
 	@Override
@@ -241,7 +215,6 @@ public class BubbleMainActivity extends Activity {
 		super.onStop();
 		Log.i("Bubble_Brust", "Inside OnStop");
 		animset.cancel();
-		animset_clouds.cancel();
 		mp.stop();
 
 	}	
@@ -252,7 +225,7 @@ public class BubbleMainActivity extends Activity {
 		super.onResume();
 		Log.i("Bubble_Brust", "Inside OnResume");
 		animset.start();
-		animset_clouds.start();
+
 	}
 
 	@Override
